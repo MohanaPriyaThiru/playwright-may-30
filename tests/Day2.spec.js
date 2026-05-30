@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-
+// added ne line to it
 test("Amazon test", async ({ page }) => {
   await page.goto("https://www.amazon.in/");
   await page.waitForTimeout(3000);
