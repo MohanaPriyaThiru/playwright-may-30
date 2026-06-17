@@ -26,7 +26,7 @@ export default defineConfig({
   reporter: [["html"], ["dot"], ["line"], ["allure-playwright"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    headless: true,
     viewport: null,
     trace: "on-first-retry",
     video: "on",
