@@ -1,6 +1,6 @@
 name: Playwright Tests
 
-# REQUIRED for GitHub Pages deployment
+# REQUIRED for GitHub Pages deployment#
 permissions:
   contents: write
 
