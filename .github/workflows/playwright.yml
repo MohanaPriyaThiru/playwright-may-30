@@ -43,7 +43,7 @@ jobs:
 
       # Run tests (don't fail pipeline)
       - name: Run Playwright tests
-        run: npx playwright test demoblaze.spec.js || true
+        run: npx playwright test rsAcademy.spec.js || true
       # Install Allure CLI (official)
       - name: Install Allure CLI
         run: npm install -g allure-commandline --save-dev
