@@ -1,14 +1,12 @@
 name: Playwright Tests
 
-#  REQUIRED for GitHub Pages deployment
+# REQUIRED for GitHub Pages deployment
 permissions:
   contents: write
 
 on:
   push:
     branches: [main, master]
-  # pull_request:
-  #  branches: [main, master]
 
 jobs:
   test:
@@ -16,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout reposit
+      # Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Setup Node
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -29,6 +27,14 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: npm ci
+
+      # Install Allure Playwright Reporter
+      - name: Install Allure Playwright Reporter
+        run: npm install --save-dev allure-playwright
+
+      # Install Allure CLI (official)
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
 
       # Install Java (needed for Allure)
       - name: Install Java
@@ -41,17 +47,20 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # Run tests (don't fail pipeline)
+      # Run Playwright tests
       - name: Run Playwright tests
-        run: npx playwright test rsAcademy.spec.js || true
-      # Install Allure CLI (official)
-      - name: Install Allure CLI
-        run: npm install -g allure-commandline --save-dev
+        run: npx playwright test rsAcademy.spec.js
+        continue-on-error: true
+
       # Generate Allure report
       - name: Generate Allure Report
         if: always()
         run: |
-          allure generate allure-results -o allure-report --clean ||true
+          if [ -d "allure-results" ]; then
+            npx allure generate allure-results -o allure-report --clean
+          else
+            echo "No allure-results found"
+          fi
 
       # Debug step (VERY IMPORTANT for troubleshooting)
       - name: Debug Allure Files
